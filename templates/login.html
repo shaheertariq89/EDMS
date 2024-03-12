@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+            <style>
+        /* CSS for centering the form and styling the form elements */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Add margin to the top */
+}
+
+select {
+    padding: 8px;
+    margin: 5px 0;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: green;
+}
+
+label {
+    font-weight: bold;
+    width: 100%;
+    text-align: left;
+}
+
+
+    .container {
+        display: flex;
+        height: 100%;
+        justify-content: center; /* Horizontally center items */
+    align-items: center; /*
+    }
+
+    .left-half {
+    width: 9.5cm; /* Set width to 12cm */
+    background-color: #f0f0f0; /* Just for demonstration */
+    overflow-y: auto; /* Add scrollbar if content overflows */
+    padding: 40px; /* Add padding for spacing */
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-half">
+    <h1>Login</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('login') }}" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!-- templates/selection_screen.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selection Screen</title>
+        <style>
+/* CSS for centering the form and styling the form elements */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 400px; /* Adjust the width as needed */
+    padding: 30px; /* Adjust the padding as needed */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Add margin to the top */
+}
+
+select {
+    padding: 8px;
+    margin: 5px 0;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: green;
+}
+
+label {
+    font-weight: bold;
+    width: 100%;
+    text-align: left;
+}
+
+.container {
+    display: flex;
+    justify-content: center; /* Horizontally center items */
+    align-items: center; /* Vertically center items */
+    height: 100vh; /* Set the height to full viewport height */
+    width: 100%; /* Adjust the width as needed */
+    max-width: 1200px; /* Optional: Set a maximum width */
+}
+
+
+    .left-half {
+    width: 15cm /* Set width to 12cm */
+    background-color: #f0f0f0; /* Just for demonstration */
+    overflow-y: auto; /* Add scrollbar if content overflows */
+    padding: 40px; /* Add padding for spacing */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-half">
+
+    <form action="/selection_screen" method="post">
+        <h1>Expense and Donation Details </h1>
+        <label for="gate_pass_type">Select Type:</label>
+        <select id="gate_pass_type" name="gate_pass_type">
+            <option value="outward">Expense Details </option>
+            <option value="inward">Donation Details </option>
+        </select><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+                <form action="/selection_screen" method="post">
+        <h1>Expense and Donation Information </h1>
+        <label for="record">Expense Or Donation Information :</label>
+        <select id="record" name="record">
+            <option value="expense">Expense Information </option>
+            <option value="donation">Donation Information </option>
+        </select><br><br>
+        <input type="submit" value="Submit">
+    </form>
+<button onclick="redirectToPage()">Logout</button>
+        </div>
+    </div>
+<script>
+    function redirectToPage() {
+        window.location.href = "/";
+    }
+</script>
+</body>
+</html>

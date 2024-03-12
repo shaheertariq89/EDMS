@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation count </title>
+    <style>
+        /* CSS for the message box and layout */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 0; /* Updated to remove padding */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none; /* Initially hide the message box */
+            cursor: pointer; /* Add cursor pointer for clickable behavior */
+        }
+
+        /* CSS for splitting the screen into two halves */
+.container {
+    display: flex;
+    justify-content: center; /* Horizontally center items */
+    align-items: center; /* Vertically center items */
+    height: 100vh; /* Set the height to full viewport height */
+}
+
+        .left-half {
+            width: 8.5cm;
+            padding: 10px; /* Updated to remove padding */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #ccc; /* Add border */
+
+    }
+
+    .left-half form {
+        width: 100%; /* Ensure form takes up full width */
+        max-width: 300px; /* Adjust as needed */
+    }
+
+    .left-half form label {
+        display: block; /* Ensure labels are on their own line */
+        margin-bottom: 10px; /* Add some space between labels */
+    }
+
+    .left-half form input[type="text"],
+    .left-half form input[type="number"] {
+        width: 100%; /* Ensure textboxes take up full width */
+        box-sizing: border-box; /* Include padding and border in width calculation */
+        padding: 8px; /* Adjust padding as needed */
+        margin-bottom: 10px; /* Add some space between textboxes */
+        border: 1px solid #ccc; /* Add border to textboxes */
+        border-radius: 5px; /* Add border radius */
+    }
+
+    .left-half form input[type="submit"] {
+        width: 100%; /* Ensure submit button takes up full width */
+        padding: 10px; /* Adjust padding as needed */
+        border: none; /* Remove border from submit button */
+        background-color: #007bff; /* Add background color to submit button */
+        color: #fff; /* Set text color to white */
+        cursor: pointer; /* Add pointer cursor */
+        border-radius: 5px; /* Add border radius */
+    }
+        .right-half {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .data-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid #dddddd;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f2f2f2;
+        }
+
+        /* CSS to decrease the size of the heading */
+        h1 {
+            font-size: 24px; /* Adjust the font size as needed */
+            margin-top: 0; /* Remove default margin */
+             text-align: center;
+              color: darkblue;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Left half of the screen -->
+
+        <div class="left-half">
+        <h1>Donation Information:</h1>
+            <form id="gatepassForm" action="/donation" method="post">
+                <label for="name">Name:</label>
+                        <select id="name" name="name">
+            <option value="Anas Malik">Anas Malik</option>
+            <option value="Arham Nadeem">Arham Nadeem</option>
+            <option value="Bilawal">Bilawal </option>
+            <option value="Huzaifa Mirza">Huzaifa Mirza</option>
+            <option value="IKrama Iftikhar">Ikrama Iftikhar</option>
+            <option value="Shaheer Tariq">Shaheer Tariq</option>
+            <option value="Shahood">Shahood</option>
+            <option value="Usama Bin Hanif">Usama Bin Hanif</option>
+            <option value="Arham Nadeem">Arham Nadeem</option>
+            <option value="Zaka">Zaka</option>
+            <!-- Add more options as needed -->
+        </select><br><br>
+                <label for="project">Project:</label>
+        <select id="project" name="project">
+            <option value="Ration">Ration drive</option>
+            <option value="Iftari">Iftar drive</option>
+            <!-- Add more options as needed -->
+        </select><br><br>
+
+                <input type="submit" value="Submit">
+
+            </form>
+            <button onclick="redirectToPage()">Back</button>
+        </div>
+        <!-- Right half of the screen for the message box and database values -->
+        <div class="right-half">
+{% if total_amount is defined %}
+    <p style="font-size: 18px; font-weight: bold;">Total Amount: {{ total_amount }}</p>
+{% else %}
+    <p style="font-size: 18px; font-weight: bold;">{{ message }}</p>
+{% endif %}
+            <!-- Display database values -->
+            <div id="databaseValues">
+                <h1>Information</h1>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Project</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+                    <!-- Message box div -->
+            <div id="messageBox" class="message-box">
+                <p id="messageText"></p>
+            </div>
+            <!-- Display message if present -->
+            {% if message %}
+            <p>{{ message }}</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <script>
+    function redirectToPage() {
+        window.location.href = "/selection_screen";
+    }
+        // Function to hide the message box when clicked
+        document.addEventListener("DOMContentLoaded", function() {
+            var messageBox = document.getElementById("messageBox");
+            messageBox.addEventListener("click", function() {
+                messageBox.style.display = "none";
+            });
+        });
+
+
+
+        // Fetch data from the Flask backend and display it in the right half
+// Fetch data from the Flask backend and display it in the right half
+fetch('/get_database_values3')
+    .then(response => response.json())
+    .then(data => {
+        const databaseValues = document.getElementById('databaseValues');
+        const tbody = databaseValues.querySelector('tbody');
+        tbody.innerHTML = ''; // Clear previous values
+
+        // Limit the data to the latest 20 entries if there are more than 20 entries
+        const limitedData = data.slice(-20);
+
+        limitedData.forEach(entry => {
+            const row = document.createElement('tr');
+            for (const key in entry) {
+                const cell = document.createElement('td');
+                cell.textContent = entry[key];
+                row.appendChild(cell);
+            }
+            tbody.appendChild(row);
+        });
+    })
+    .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
